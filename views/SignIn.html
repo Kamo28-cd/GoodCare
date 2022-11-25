@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<title>Login | GoodCare GoodHair</title> 
+
+<?php
+	include('./views/Header.html');
+?>
+
+</head>
+<body class="bg_white">
+	<div class="back-btn" onClick="goBack()">
+		<i class="fas fa-chevron-left"></i>
+	</div>
+	<div class="tableDisplay">
+	
+	<div class="loginSection tableCell">
+		
+		<div class="logo-auth-container">
+			<img src="assets/images/logo.png" class="logo-auth" alt="GoodCare GoodHair Logo"/>
+		</div>
+		<div class="line-dec"></div>
+		<h3>Sign in</h3>
+		
+		<form id="contact" class="contact-form" action="" method="post" onsubmit="return false">
+			<div class="center-h-align row">
+				
+				<div class="myFormDiv col-md-4">
+					<fieldset>
+						<input name="email" type="email" class="form-control required-input" id="email" placeholder="Your email..." required>
+					</fieldset>
+				</div>
+				<div class="myFormDiv col-md-4">
+					<fieldset>
+						<input name="password" type="password" class="form-control required-input" id="password" placeholder="Password..." required>
+					</fieldset>
+				</div>
+								
+				<div class="myFormDiv col-md-6">
+					<fieldset>
+						    <button type="submit" id="form-submit" class="btn btn-black-outline" >Sign in</button>
+					</fieldset>
+				</div>
+				<div class="myFormDiv col-md-6">
+					<a href="forgot-password" class="center-text purple body-text">Forgot Password? Click here</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+<?php
+	include('./views/Footer.html');
+?>
+<script>
+			$('#form-submit').click(function() {
+						$.ajax({
+							 
+							 type: "POST",
+							 url: "api/auth",
+							 cache:false,
+							 processData: false,
+							 contentType:"application/json",
+							 data: '{"email": "'+ $("#email").val()+'", "password": "'+ $("#password").val()+'"}',
+							 success: function(r) {
+								 	
+									type = 'success';
+									
+									//response = r.Success;
+  									response = 'Logging in'
+									notify(type,'Success:'+response+'')
+									setTimeout(function() {window.location.href = "dashboard";},1500)
+							 },
+							 error: function(r) {
+									type = 'error';
+									response = r.responseText;
+									notify(type,'Error:'+response+'')
+								 	setTimeout(function() {
+										$('[data-bs-animate]').removeClass('animated' + $('[data-bs-hover-animate]').attr('data-bs-hover-animate'));}, 2000)
+										$('[data-bs-animate]').addClass('animated' + $('[data-bs-hover-animate]').attr('data-bs-hover-animate'))
+
+								 }
+						});
+			});
+</script>
+</body>
+</html>
